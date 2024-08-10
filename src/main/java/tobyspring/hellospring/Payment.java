@@ -20,7 +20,7 @@ public class Payment {
         this.validUntil = validUntil;
     }
 
-    public Long getOrderId() {
+    public Long getOrderId2() {
         return orderId;
     }
 
