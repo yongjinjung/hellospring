@@ -20,11 +20,7 @@ public class Payment {
         this.validUntil = validUntil;
     }
 
-<<<<<<< Updated upstream
-    public Long getOrderId4() {
-=======
     public Long getOrderId5() {
->>>>>>> Stashed changes
         return orderId;
     }
 
