@@ -1,8 +1,8 @@
-package tobyspring.hellospring.exrate;
+package tobyspring.hellospring.api;
 
 import org.springframework.web.client.RestTemplate;
-import tobyspring.hellospring.ExRateData;
 import tobyspring.hellospring.api.ExRateExtractor;
+import tobyspring.hellospring.exrate.ExRateData;
 
 import java.math.BigDecimal;
 
