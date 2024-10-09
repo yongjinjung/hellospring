@@ -1,5 +1,6 @@
 package tobyspring.hellospring.payment;
 
+import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class PaymentServiceTest {
 
@@ -33,6 +35,23 @@ class PaymentServiceTest {
         System.out.println(LocalDateTime.now().plusMinutes(30));
         assertThat(payment.getValidUntil()).isAfter(LocalDateTime.now());
         assertThat(payment.getValidUntil()).isBefore(LocalDateTime.now().plusMinutes(30));
+
+    }
+
+    @Test
+    @DisplayName("prepare 메소드가 요구사항 3가지를 잘 충족 했는지 검증")
+    void prepare2() throws IOException {
+        //준비
+        PaymentService paymentService = new PaymentService(new WebApiExRateProvider());
+
+        //실행
+        Payment usd = paymentService.prepare(2L, "USD", new BigDecimal("20"));
+
+        //검증
+        Assertions.assertThat(usd.getExRate()).isNotNull(); //적용할 환율 정보가 있는지 검증한다.
+        Assertions.assertThat(usd.getConvertedAmount()).isEqualTo(usd.getExRate().multiply(usd.getCurrencyAmount())); //원화 환산 금액이 환율정보를 가지고 정상적으로 계산이 되었는지 검증한다.
+        Assertions.assertThat(usd.getValidUntil()).isAfter(LocalDateTime.now());    //원화 환산 금액 유효시간이 현재 시간보다 이후인지 검증한다.
+        Assertions.assertThat(usd.getValidUntil()).isBefore(LocalDateTime.now().plusMinutes(30)); //원화 환산 금액 유효시간이 현재 시간에서 plus 30분 한 시간보다 이전인지 검증한다.
 
     }
 }
