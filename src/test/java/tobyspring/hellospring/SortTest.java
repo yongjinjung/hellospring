@@ -54,5 +54,20 @@ public class SortTest {
 
         //검증
         Assertions.assertThat(list).isEqualTo(List.of("b","aa", "ccc"));
+        Assertions.assertThat(list).isEqualTo(List.of("b","aa", "ccc"));
+    }
+
+    @Test
+    void sort2(){
+
+        //준비 (given)
+        Sort sort = new Sort();
+
+        //실행 (when)
+        List<String> list = sort.sortByLength(Arrays.asList("aa", "ccc", "b"));
+
+        //검증 (Then)
+        Assertions.assertThat(list).isEqualTo(List.of("b", "aa", "ccc"));
+
     }
 }
