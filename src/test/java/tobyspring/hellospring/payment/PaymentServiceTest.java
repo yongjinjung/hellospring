@@ -6,6 +6,7 @@ import tobyspring.hellospring.exrate.WebApiExRateProvider;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 import static java.math.BigDecimal.*;
@@ -18,7 +19,7 @@ class PaymentServiceTest {
     @DisplayName("prepare 메소드가 요구사항 3가지를 잘 충족 했는지 검증")
     void prepare() throws IOException {
 
-        PaymentService paymentService = new PaymentService(new WebApiExRateProvider());
+        PaymentService paymentService = new PaymentService(new WebApiExRateProvider(), Clock.systemDefaultZone());
         Payment payment = paymentService.prepare(1L, "USD", TEN);
 
         //환율정보 가져온다
@@ -40,7 +41,7 @@ class PaymentServiceTest {
     @DisplayName("prepare 메소드가 요구사항 3가지를 잘 충족 했는지 검증")
     void prepare2() throws IOException {
         //준비
-        PaymentService paymentService = new PaymentService(new WebApiExRateProvider());
+        PaymentService paymentService = new PaymentService(new WebApiExRateProvider(), Clock.systemDefaultZone());
 
         //실행
         Payment usd = paymentService.prepare(2L, "USD", new BigDecimal("20"));
@@ -65,7 +66,7 @@ class PaymentServiceTest {
 
     private static void getPayment(BigDecimal exRate, BigDecimal convertedAmount) throws IOException {
         //준비
-        PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate));
+        PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate), Clock.systemDefaultZone());
 
         //실행
         Payment usd = paymentService.prepare(3L, "USD", TEN);

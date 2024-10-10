@@ -4,14 +4,17 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Component
 public class PaymentService {
     private final ExRateProvider provider;
+    private final Clock clock;
 
-    public PaymentService(ExRateProvider provider) {
+    public PaymentService(ExRateProvider provider, Clock clock) {
         this.provider = provider;
+        this.clock = clock;
     }
 
     public Payment prepare(Long orderId, String currency, BigDecimal currencyAmount) throws IOException {
@@ -20,7 +23,7 @@ public class PaymentService {
         //금액 계산
         BigDecimal convertedAmount = currencyAmount.multiply(exRate);
         //유효 시간 계산
-        LocalDateTime validUntil = LocalDateTime.now().plusMinutes(30);
+        LocalDateTime validUntil = LocalDateTime.now(clock).plusMinutes(30);
         return new Payment(orderId, currency, currencyAmount, exRate, convertedAmount, validUntil);
     }
 }
