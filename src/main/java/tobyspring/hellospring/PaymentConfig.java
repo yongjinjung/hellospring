@@ -7,13 +7,15 @@ import tobyspring.hellospring.payment.ExRateProvider;
 import tobyspring.hellospring.exrate.WebApiExRateProvider;
 import tobyspring.hellospring.payment.PaymentService;
 
+import java.time.Clock;
+
 @Configuration
 //@ComponentScan(basePackages = {"tobyspring.hellospring"})
 public class PaymentConfig {
 
     @Bean
     public PaymentService paymentService(){
-        return new PaymentService(cachedExratePrvider());
+        return new PaymentService(cachedExratePrvider(), clock());
     }
 
     public ExRateProvider cachedExratePrvider(){
@@ -24,4 +26,7 @@ public class PaymentConfig {
     public ExRateProvider exRateProvider(){
         return new WebApiExRateProvider();
     }
+
+    @Bean
+    public Clock clock(){return Clock.systemDefaultZone();}
 }
