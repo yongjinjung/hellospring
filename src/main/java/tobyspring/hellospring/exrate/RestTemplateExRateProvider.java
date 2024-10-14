@@ -1,12 +1,11 @@
-package tobyspring.hellospring.api;
+package tobyspring.hellospring.exrate;
 
 import org.springframework.web.client.RestTemplate;
-import tobyspring.hellospring.api.ExRateExtractor;
-import tobyspring.hellospring.exrate.ExRateData;
+import tobyspring.hellospring.payment.ExRateProvider;
 
 import java.math.BigDecimal;
 
-public class RestTemplateExRateProvider implements ExRateExtractor {
+public class RestTemplateExRateProvider implements ExRateProvider {
     private final RestTemplate restTemplate;
 
     public RestTemplateExRateProvider(RestTemplate restTemplate) {
@@ -15,7 +14,7 @@ public class RestTemplateExRateProvider implements ExRateExtractor {
 
     @Override
     public BigDecimal getExRate(String currency) {
-        String url = "";
+        String url = "https://open.er-api.com/v6/latest/" + currency;
         return restTemplate.getForObject(url, ExRateData.class).rates().get("KRW");
     }
 }

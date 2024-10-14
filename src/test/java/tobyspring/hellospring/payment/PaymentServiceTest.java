@@ -3,6 +3,7 @@ package tobyspring.hellospring.payment;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import tobyspring.hellospring.api.ApiTemplate;
 import tobyspring.hellospring.exrate.WebApiExRateProvider;
 
 import java.io.IOException;
@@ -27,9 +28,9 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("prepare 메소드가 요구사항 3가지를 잘 충족 했는지 검증")
-    void prepare() throws IOException {
+    void prepare()  {
 
-        PaymentService paymentService = new PaymentService(new WebApiExRateProvider(), Clock.systemDefaultZone());
+        PaymentService paymentService = new PaymentService(new WebApiExRateProvider(new ApiTemplate()), Clock.systemDefaultZone());
         Payment payment = paymentService.prepare(1L, "USD", TEN);
 
         //환율정보 가져온다
@@ -49,9 +50,9 @@ class PaymentServiceTest {
 
     @Test
     @DisplayName("prepare 메소드가 요구사항 3가지를 잘 충족 했는지 검증")
-    void prepare2() throws IOException {
+    void prepare2() {
         //준비
-        PaymentService paymentService = new PaymentService(new WebApiExRateProvider(), Clock.systemDefaultZone());
+        PaymentService paymentService = new PaymentService(new WebApiExRateProvider(new ApiTemplate()), Clock.systemDefaultZone());
 
         //실행
         Payment usd = paymentService.prepare(2L, "USD", new BigDecimal("20"));
@@ -65,7 +66,7 @@ class PaymentServiceTest {
     }
 
     @Test
-    void prepareStub() throws IOException {
+    void prepareStub() {
 
         getPayment(valueOf(500), valueOf(5_000), this.clock);
         getPayment(valueOf(600), valueOf(6_000), this.clock);
@@ -74,7 +75,7 @@ class PaymentServiceTest {
     }
 
     @Test
-    void vlidUntil() throws IOException {
+    void vlidUntil() {
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(valueOf(1_000)), clock);
         Payment usd = paymentService.prepare(1L, "USD", TEN);
         //valid until이 prepare()30분 뒤로 설정됐는가?
@@ -84,7 +85,7 @@ class PaymentServiceTest {
 
     }
 
-    private static void getPayment(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) throws IOException {
+    private static void getPayment(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) {
         //준비
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate), clock);
 

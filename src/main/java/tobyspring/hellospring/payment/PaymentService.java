@@ -17,7 +17,7 @@ public class PaymentService {
         this.clock = clock;
     }
 
-    public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) throws IOException {
+    public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) {
         //환율 가져오기
         BigDecimal exRate = provider.getExRate(currency);
         //원화 환산 금액을 계산한다.
