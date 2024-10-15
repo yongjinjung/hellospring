@@ -6,15 +6,15 @@ import org.junit.jupiter.api.Test;
 import tobyspring.hellospring.api.ApiTemplate;
 import tobyspring.hellospring.exrate.WebApiExRateProvider;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import static java.math.BigDecimal.*;
-import static org.assertj.core.api.Assertions.*;
+import static java.math.BigDecimal.TEN;
+import static java.math.BigDecimal.valueOf;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 class PaymentServiceTest {
@@ -54,8 +54,10 @@ class PaymentServiceTest {
         //준비
         PaymentService paymentService = new PaymentService(new WebApiExRateProvider(new ApiTemplate()), Clock.systemDefaultZone());
 
-        //실행
-        Payment usd = paymentService.prepare(2L, "USD", new BigDecimal("20"));
+        /* 실행 */
+        Payment usd = paymentService.prepare(2L,
+                "USD",
+                new BigDecimal("20"));
 
         //검증
         assertThat(usd.getExRate()).isNotNull(); //적용할 환율 정보가 있는지 검증한다.
