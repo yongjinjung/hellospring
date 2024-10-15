@@ -15,4 +15,9 @@ public class JpaOrderRepository implements OrderRepository {
 
         em.persist(order);
     }
+
+    @Override
+    public Order findById(Long id) {
+        return em.find(Order.class, id);
+    }
 }
