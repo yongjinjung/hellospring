@@ -2,9 +2,9 @@ package tobyspring.hellospring;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import tobyspring.hellospring.order.Order;
 import tobyspring.hellospring.order.OrderService;
+import tobyspring.hellospring.order.OrderServiceImpl;
 
 import java.math.BigDecimal;
 
