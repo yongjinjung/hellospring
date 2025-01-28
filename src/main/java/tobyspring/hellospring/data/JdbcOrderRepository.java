@@ -22,7 +22,7 @@ public class JdbcOrderRepository implements OrderRepository {
             create table orders (id bigint not null, no varchar(255), total numeric(38,2), primary key (id));
             alter table if exists orders drop constraint if exists UK_43egxxciqr9ncgmxbdx2avi8n;
             alter table if exists orders add constraint UK_43egxxciqr9ncgmxbdx2avi8n unique (no);
-            create sequence orders_SEQ start with 1 increment by 1;
+            create sequence orders_SEQ start with 1 increment by 50;
        """).update();
     }
 
@@ -32,6 +32,8 @@ public class JdbcOrderRepository implements OrderRepository {
         System.out.println("id = " + id);
 
         order.setId(id);
+        order.setNo("1234111");
+        order.setTotal(BigDecimal.TEN);
         jdbcClient.sql("insert into orders (no,total,id) values (?,?,?)")
                 .params(order.getNo(), order.getTotal(), order.getId()).update();
     }
